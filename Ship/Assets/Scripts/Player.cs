@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float climbSpeed;
     private Rigidbody2D rb;
     private bool canJump = true;
-    private bool canClimb = false;
+    public bool canClimb = false;
     public bool isEActive = true;
     public bool isLadder = false;
+    private bool isRealoding = true;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,18 +47,21 @@ public class Player : MonoBehaviour
     }
     private void ClimbLadder()
     {
-        if (Input.GetKey(KeyCode.E) && isEActive)
-        {
-            isLadder = true;
-            isEActive = false;
-            
-        }
-        if(Input.GetKey(KeyCode.E) && !isEActive)
+        if(Input.GetKey(KeyCode.E) && !isEActive && isRealoding)
         {
             isLadder = false;
             isEActive = true;
             rb.gravityScale = 1;
+            StartCoroutine(RealodClimb());
         }
+        else if (Input.GetKey(KeyCode.E) && isEActive && isRealoding)
+        {
+            isLadder = true;
+            isEActive = false;
+            rb.gravityScale = 0;
+            StartCoroutine(RealodClimb());
+        }
+        
         if (isLadder)
         {
             rb.velocity = new Vector2(rb.velocity.x, Input.GetAxisRaw("Vertical") * climbSpeed);
@@ -89,7 +93,15 @@ public class Player : MonoBehaviour
             canClimb = false;
             rb.gravityScale = 1;
             isEActive = true;
+            isLadder = false;
         }
     }
-   
+    IEnumerator RealodClimb()
+    {
+        isRealoding = false;
+        yield return new WaitForSeconds(1);
+        isRealoding = true;
+    }
+    
+
 }

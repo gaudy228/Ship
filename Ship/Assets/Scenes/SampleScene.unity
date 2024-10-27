@@ -1701,8 +1701,9 @@ MonoBehaviour:
   speed: 4
   jumpForce: 6
   climbSpeed: 3
+  canClimb: 0
   isEActive: 1
-  isLadder: 1
+  isLadder: 0
 --- !u!212 &2051367229
 SpriteRenderer:
   m_ObjectHideFlags: 0
