@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float climbSpeed;
     private Rigidbody2D rb;
     private bool canJump = true;
-    public bool canClimb = false;
-    public bool isEActive = true;
-    public bool isLadder = false;
+    private bool canClimb = false;
+    private bool isEActive = true;
+    private bool isLadder = false;
     private bool isRealoding = true;
     void Start()
     {
@@ -36,6 +36,15 @@ public class Player : MonoBehaviour
     private void Move()
     {
         rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.localScale = new Vector3(1.1f, 1.1f, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.localScale = new Vector3(-1.1f, 1.1f, 0);
+        }
+
     }
     private void Jump()
     {
