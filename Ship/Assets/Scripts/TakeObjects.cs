@@ -56,9 +56,9 @@ public class TakeObjects : MonoBehaviour
         }
        
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (isObject == null & collision.gameObject.CompareTag("Coal") & !takingAndDrag)
+        if (isObject == null && collision.gameObject.CompareTag("Coal") && !takingAndDrag)
         {
             isObject = collision.gameObject;
             canTakeObject = true;
@@ -66,7 +66,7 @@ public class TakeObjects : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Coal") & !takingAndDrag & isObject == null)
+        if (collision.gameObject.CompareTag("Coal") && !takingAndDrag)
         {
             takingAndDrag = false;
             canTakeObject = false;
