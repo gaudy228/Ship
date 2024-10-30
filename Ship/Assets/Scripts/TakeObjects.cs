@@ -19,11 +19,16 @@ public class TakeObjects : MonoBehaviour
     
     void Update()
     {
-        TakeObject();
+        if(isObject != null)
+        {
+            TakeObject();
+
+        }
+        
     }
     private void TakeObject()
     {
-        if(Input.GetKey(KeyCode.Q) && isRealoding && !isQActive && isObject != null)
+        if(Input.GetKey(KeyCode.Q) && isRealoding && !isQActive)
         {
             takingAndDrag = false;
             isObject.GetComponent<Rigidbody2D>().gravityScale = 1;
@@ -34,7 +39,7 @@ public class TakeObjects : MonoBehaviour
             isQActive = true;
             StartCoroutine(RealodTake());
         }
-        else if (canTakeObject && Input.GetKey(KeyCode.Q) && isRealoding && isQActive && isObject != null)
+        else if (canTakeObject && Input.GetKey(KeyCode.Q) && isRealoding && isQActive)
         {
             takingAndDrag = true;
             
@@ -44,7 +49,7 @@ public class TakeObjects : MonoBehaviour
             StartCoroutine(RealodTake());
         }
 
-        if (takingAndDrag && isObject != null)
+        if (takingAndDrag)
         {
             isObject.transform.position = sppCoal.position;    
             isObject.transform.parent = sppCoal.transform;
@@ -53,7 +58,7 @@ public class TakeObjects : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Coal") && isObject == null)
+        if (isObject == null & collision.gameObject.CompareTag("Coal") & !takingAndDrag)
         {
             isObject = collision.gameObject;
             canTakeObject = true;
@@ -61,10 +66,11 @@ public class TakeObjects : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Coal"))
+        if (collision.gameObject.CompareTag("Coal") & !takingAndDrag & isObject == null)
         {
             takingAndDrag = false;
             canTakeObject = false;
+            isObject = null;
         }
     }
     IEnumerator RealodTake()
