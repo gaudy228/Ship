@@ -7,10 +7,10 @@ public class TakeObjects : MonoBehaviour
     private bool canTakeObject;
     private bool isRealoding = true;
     private bool isQActive = true;
-    private bool takingAndDrag = false;
+    public bool takingAndDrag = false;
     [SerializeField] private GameObject isObject;
     [SerializeField] private Transform sppCoal;
-    private bool tpObject;
+    
     void Start()
     {
         
@@ -24,6 +24,7 @@ public class TakeObjects : MonoBehaviour
             TakeObject();
 
         }
+      
         
     }
     private void TakeObject()
