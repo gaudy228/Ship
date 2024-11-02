@@ -9,6 +9,9 @@ TagManager:
   - Coal
   - StarterCoal
   - Topka
+  - LR
+  - LL
+  - LS
   layers:
   - Default
   - TransparentFX
@@ -18,8 +21,8 @@ TagManager:
   - UI
   - Topka
   - TCoal
-  - 
-  - 
+  - Floor
+  - Puff
   - 
   - 
   - 

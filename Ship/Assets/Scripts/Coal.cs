@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Coal : MonoBehaviour
@@ -13,16 +12,16 @@ public class Coal : MonoBehaviour
     private bool oneMake = true;
     private GameObject player;
     private TakeObjects takeObjects;
-    private GameObject topkaG;
+    
     private Topka topka;
-
+    private bool isFireObj = false;
     
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         takeObjects = player.GetComponent<TakeObjects>();
-        topkaG = GameObject.FindWithTag("Topka");
-        topka = topkaG.GetComponent<Topka>();
+        
+        topka = player.GetComponent<Topka>();
     }
 
     // Update is called once per frame
@@ -47,7 +46,7 @@ public class Coal : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("StarterCoal"))
+        if (collision.gameObject.CompareTag("StarterCoal") && !takeObjects.takingAndDrag && isFireObj)
         {
             topka.countFuel++;
             topka.fuel += topka.plusFuel;
@@ -60,6 +59,7 @@ public class Coal : MonoBehaviour
         if(Physics2D.OverlapCircle(topkaCheck.position, overlapRadius, topkaL) && !takeObjects.takingAndDrag)
         {
             isFly = true;
+            isFireObj = true;
         }
     }
     private void OnDrawGizmos()

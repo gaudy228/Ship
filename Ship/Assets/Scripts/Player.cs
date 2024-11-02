@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,12 +7,22 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float climbSpeed;
-    private Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     private bool canJump = true;
+    
     private bool canClimb = false;
     private bool isEActive = true;
     private bool isLadder = false;
     private bool isRealoding = true;
+
+    [SerializeField] private Puff puffScript;
+
+    [SerializeField] private LayerMask puff;
+    [HideInInspector] public bool canPuff = false;
+    [Header("OverlapFloor")]
+    [SerializeField] private Transform checkFloor;
+    [SerializeField] private float overlapRadius;
+    [SerializeField] private LayerMask floor;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -20,14 +30,19 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-        Jump();
-        if (canClimb)
+        if (puffScript.canRun)
         {
-            ClimbLadder();
+            Move();
+            Jump();
+            if (canClimb)
+            {
+                ClimbLadder();
 
+            }
         }
         
+        canJump = Physics2D.OverlapCircle(checkFloor.position, overlapRadius, floor);
+        canPuff = Physics2D.OverlapCircle(checkFloor.position, overlapRadius, puff);
     }
     void Update()
     {
@@ -81,10 +96,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            canJump = true;
-        }
+        
         if (collision.gameObject.CompareTag("Ladder"))
         {
             canClimb = true;
@@ -93,10 +105,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            canJump = false;
-        }
+       
         if (collision.gameObject.CompareTag("Ladder"))
         {
             canClimb = false;
@@ -111,6 +120,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1);
         isRealoding = true;
     }
-    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(checkFloor.position, overlapRadius);
+    }
 
 }

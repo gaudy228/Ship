@@ -1,40 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Topka : MonoBehaviour
 {
-    public float countFuel;
+    
     public float fuel;
     public float energy;
+   
+    public float puffCount;
+
+    public float fullEnergy;
+    [Header("Parametrs")]
+    public float countFuel;
     public float plusFuel;
     public float plusEnergy;
+    public float divideMinusFuel;
+    [SerializeField] private float maxEnergy;
+    [SerializeField] private float maxFuel;
+    private LeverTrain leverTrain;
     void Start()
     {
-        
+        leverTrain = GetComponent<LeverTrain>();
     }
 
     
     void Update()
     {
-        if(countFuel > 5)
+        fullEnergy = energy * puffCount  / (100 * leverTrain.divideSpeedTrain);
+        
+        if (countFuel > 5)
         {
             countFuel = 5;
         }
-        if(countFuel > 0)
+        if(energy > maxEnergy)
         {
-            fuel -= Time.deltaTime / 3.5f;
-            if(fuel <= 0)
+            energy = maxEnergy;
+        }
+        if (fuel > maxFuel)
+        {
+            fuel = maxFuel;
+        }
+        if (countFuel > 0)
+        {
+            
+            if(fuel > 0)
             {
-                countFuel = 0;
+                fuel -= Time.deltaTime * puffCount / divideMinusFuel;
             }
-            energy -= Time.deltaTime;
+            else
+            {
+                fuel = 0;
+            }
+            if(energy > 0)
+            {
+                if(fuel > 0)
+                {
+                    energy -= Time.deltaTime * 2;
+                }
+                else if(fuel <= 0)
+                {
+                    energy -= Time.deltaTime * 5;
+                }
+                
+            }
+            else
+            {
+                energy = 0;
+            }
         }
-        else
-        {
-            fuel = 0;
-            energy = 0;
-        }
+       
         
         
     }

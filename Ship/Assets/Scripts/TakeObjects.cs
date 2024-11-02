@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class TakeObjects : MonoBehaviour
@@ -7,7 +7,7 @@ public class TakeObjects : MonoBehaviour
     private bool canTakeObject;
     private bool isRealoding = true;
     private bool isQActive = true;
-    public bool takingAndDrag = false;
+    [HideInInspector] public bool takingAndDrag = false;
     [SerializeField] private GameObject isObject;
     [SerializeField] private Transform sppCoal;
     
