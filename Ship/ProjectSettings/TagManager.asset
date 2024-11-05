@@ -12,6 +12,7 @@ TagManager:
   - LR
   - LL
   - LS
+  - Die
   layers:
   - Default
   - TransparentFX

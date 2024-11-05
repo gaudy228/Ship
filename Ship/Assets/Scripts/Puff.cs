@@ -40,7 +40,7 @@ public class Puff : MonoBehaviour
         if(topka.puffCount < 8 && topka.fuel > 0)
         {
             topka.puffCount++;
-            topka.energy += 20;
+            topka.energy ++;
             if(oneMake)
             {
                 oneMake = false;
@@ -60,7 +60,7 @@ public class Puff : MonoBehaviour
     private IEnumerator MinusPuff()
     {
 
-        yield return new WaitForSecondsRealtime(20);
+        yield return new WaitForSecondsRealtime(12);
         if(topka.puffCount > 1)
         {
             topka.puffCount--;

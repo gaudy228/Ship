@@ -1,6 +1,7 @@
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -23,15 +24,16 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform checkFloor;
     [SerializeField] private float overlapRadius;
     [SerializeField] private LayerMask floor;
+    [SerializeField] private GameObject win;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Time.timeScale = 1;
     }
 
     private void FixedUpdate()
     {
-        if (puffScript.canRun)
-        {
+        
             Move();
             Jump();
             if (canClimb)
@@ -39,7 +41,7 @@ public class Player : MonoBehaviour
                 ClimbLadder();
 
             }
-        }
+        
         
         canJump = Physics2D.OverlapCircle(checkFloor.position, overlapRadius, floor);
         canPuff = Physics2D.OverlapCircle(checkFloor.position, overlapRadius, puff);
@@ -102,6 +104,20 @@ public class Player : MonoBehaviour
             canClimb = true;
             
         }
+        if (collision.gameObject.CompareTag("Topka"))
+        {
+            BackMenu();
+        }
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            win.SetActive(true);
+            Time.timeScale = 0;
+        }
+
+    }
+    public void BackMenu()
+    {
+        SceneManager.LoadScene(0);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -112,6 +128,10 @@ public class Player : MonoBehaviour
             rb.gravityScale = 1;
             isEActive = true;
             isLadder = false;
+        }
+        if (collision.gameObject.CompareTag("Die"))
+        {
+            BackMenu();
         }
     }
     IEnumerator RealodClimb()
