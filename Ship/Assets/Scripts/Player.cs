@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float overlapRadius;
     [SerializeField] private LayerMask floor;
     [SerializeField] private GameObject win;
+
+    [Header("OverlapFloor")]
+    [SerializeField] private float speedWhenMoveLever;
+    public bool canMoveLever = false;
+    private Rigidbody2D rbLever;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,9 +38,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+        if (!canMoveLever)
+        {
             Move();
+        }
             Jump();
+            LeverControlTrain();
             if (canClimb)
             {
                 ClimbLadder();
@@ -52,7 +60,13 @@ public class Player : MonoBehaviour
     }
     private void Move()
     {
-        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
+        
+       rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, rb.velocity.y);
+        
+        
+            
+        
+        
         if (Input.GetKey(KeyCode.D))
         {
             transform.localScale = new Vector3(1.1f, 1.1f, 0);
@@ -96,6 +110,26 @@ public class Player : MonoBehaviour
         
       
     }
+    private void LeverControlTrain()
+    {
+        if(rbLever != null && Input.GetKey(KeyCode.E) && canMoveLever)
+        {
+            rbLever.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speedWhenMoveLever, 0);
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speedWhenMoveLever, rb.velocity.y);
+        }
+        else
+        {
+            if(rbLever != null)
+            {
+                rbLever.velocity = Vector2.zero;
+            }
+            Move();
+        }
+    }
+    public void BackMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -113,12 +147,14 @@ public class Player : MonoBehaviour
             win.SetActive(true);
             Time.timeScale = 0;
         }
+        if (collision.gameObject.CompareTag("LeverControl"))
+        {
+            canMoveLever = true;
+            rbLever = collision.gameObject.GetComponent<Rigidbody2D>();
+        }
 
     }
-    public void BackMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
        
@@ -132,6 +168,17 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Die"))
         {
             BackMenu();
+        }
+        if (collision.gameObject.CompareTag("LeverControl"))
+        {
+            canMoveLever = false;
+            if(rbLever != null)
+            {
+                rbLever.velocity = Vector2.zero;
+            }
+            
+            rbLever = null;
+            
         }
     }
     IEnumerator RealodClimb()
