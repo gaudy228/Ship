@@ -17,14 +17,14 @@ public class Topka : MonoBehaviour
     public float divideMinusFuel;
     [SerializeField] private float maxEnergy;
     [SerializeField] private float maxFuel;
-    private LeverTrain leverTrain;
+   
 
     [SerializeField] private TextMeshProUGUI textFuel;
     [SerializeField] private TextMeshProUGUI textEnergy;
     [SerializeField] private TextMeshProUGUI textPuff;
     void Start()
     {
-        leverTrain = GetComponent<LeverTrain>();
+        
     }
 
     
@@ -33,7 +33,7 @@ public class Topka : MonoBehaviour
         textFuel.text = "Топливо: " + fuel.ToString("0.0") + " / 250";
         textEnergy.text = "Енергия: " + energy.ToString("0.0") + " / 400";
         textPuff.text = "Топка: " + puffCount.ToString() + " / 8";
-        fullEnergy = energy * puffCount  / (100 * leverTrain.divideSpeedTrain);
+        fullEnergy = energy * puffCount  / 100 ;
         
         if (countFuel > 5)
         {

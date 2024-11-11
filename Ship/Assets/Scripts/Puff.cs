@@ -60,7 +60,7 @@ public class Puff : MonoBehaviour
     private IEnumerator MinusPuff()
     {
 
-        yield return new WaitForSecondsRealtime(12);
+        yield return new WaitForSecondsRealtime(25);
         if(topka.puffCount > 1)
         {
             topka.puffCount--;

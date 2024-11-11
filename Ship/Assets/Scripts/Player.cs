@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
     }
     private void LeverControlTrain()
     {
-        if(rbLever != null && Input.GetKey(KeyCode.E) && canMoveLever)
+        if(rbLever != null && Input.GetKey(KeyCode.LeftShift) && canMoveLever)
         {
             rbLever.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speedWhenMoveLever, 0);
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speedWhenMoveLever, rb.velocity.y);

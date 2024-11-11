@@ -8,11 +8,11 @@ public class Train : MonoBehaviour
     private GameObject player;
 
 
-    private LeverTrain leverTrain;
+    
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        leverTrain = player.GetComponent<LeverTrain>();
+        
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class Train : MonoBehaviour
     {
         if(topka.fullEnergy > 0)
         {
-            transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime * leverTrain.LRorLL);
+            transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime);
         }
         
     }
