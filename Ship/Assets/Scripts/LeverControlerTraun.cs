@@ -4,36 +4,45 @@ using UnityEngine;
 
 public class LeverControlerTraun : MonoBehaviour
 {
-    private bool canMove = false;
-    private Rigidbody2D rb;
-    [SerializeField] private float speedMoveLever;
-    // Start is called before the first frame update
+    public float currendSpeed = 1.0f;
+    public bool stop;
+    public bool goLeft;
+   
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.E) && canMove)
-        {
-           rb.velocity = new Vector2(speedMoveLever, 0);
-        }
+       
     }
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("LR"))
         {
-            canMove = true;
+            currendSpeed = 1;
         }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("LR05"))
         {
-            canMove = false;
-            rb.velocity = Vector2.zero;
+            currendSpeed = 0.5f;
+            stop = false;
+            
         }
+        if (collision.gameObject.CompareTag("LS"))
+        {
+            stop = true;
+            goLeft = false;
+            currendSpeed = 0;
+        }
+        if (collision.gameObject.CompareTag("LL"))
+        {
+            stop = true;
+            goLeft = true;
+        }
+
     }
+    
 }
