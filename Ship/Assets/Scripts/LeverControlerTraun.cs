@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class LeverControlerTraun : MonoBehaviour
 {
-    public float currendSpeed = 1.0f;
+    public float currendSpeed = 0f;
     public bool stop;
     public bool goLeft;
-   
+    public bool goRight;
+    public bool goHalfRight;
     void Start()
     {
        
@@ -23,16 +24,21 @@ public class LeverControlerTraun : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("LR"))
         {
-            currendSpeed = 1;
+            
+            goRight = true;
+            goHalfRight = false;
         }
         if (collision.gameObject.CompareTag("LR05"))
         {
-            currendSpeed = 0.5f;
+            
+            goHalfRight = true;
+            goRight = false;
             stop = false;
             
         }
         if (collision.gameObject.CompareTag("LS"))
         {
+            goHalfRight = false;
             stop = true;
             goLeft = false;
             currendSpeed = 0;

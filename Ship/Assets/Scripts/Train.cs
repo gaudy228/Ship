@@ -8,7 +8,7 @@ public class Train : MonoBehaviour
     private GameObject player;
     [SerializeField] private LeverControlerTraun leverControlerTraun;
 
-    private float stopSpeed;
+    private float rememberSpeed;
 
     void Start()
     {
@@ -19,26 +19,69 @@ public class Train : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(topka.fullEnergy > 0 && !leverControlerTraun.stop)
-        {
-            transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime * leverControlerTraun.currendSpeed);
-            stopSpeed = topka.fullEnergy;
-        }
+        GoRightFullSpeed();
+        GoRightHalfSpeed();
+        Stop();
+        GoLeft();
+    }
+    private void Stop()
+    {
         if (leverControlerTraun.stop)
         {
-            if(stopSpeed > 0)
+            if (rememberSpeed > 0)
             {
-                stopSpeed -= Time.deltaTime;
+                rememberSpeed -= Time.deltaTime;
                 transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime / 3f);
             }
             else
             {
-                stopSpeed = 0;
+                rememberSpeed = 0;
             }
-            if (leverControlerTraun.goLeft && stopSpeed == 0)
+            
+        }
+    }
+    private void GoRightFullSpeed()
+    {
+        if (topka.fullEnergy > 0 && !leverControlerTraun.stop && leverControlerTraun.goRight)
+        {
+            if(leverControlerTraun.currendSpeed < 1)
             {
-                transform.Translate(-Vector3.right * topka.fullEnergy * Time.deltaTime / 2f);
+                leverControlerTraun.currendSpeed += Time.deltaTime / 10f;
             }
+            else
+            {
+                leverControlerTraun.currendSpeed = 1;
+            }
+            transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime * leverControlerTraun.currendSpeed);
+            rememberSpeed = topka.fullEnergy;
+        }
+    }
+    private void GoRightHalfSpeed()
+    {
+        if (topka.fullEnergy > 0 && !leverControlerTraun.stop && leverControlerTraun.goHalfRight)
+        {
+
+            if (leverControlerTraun.currendSpeed > 0.51f)
+            {
+                leverControlerTraun.currendSpeed -= Time.deltaTime / 10f;
+            }
+            else if (leverControlerTraun.currendSpeed < 0.49f)
+            {
+                leverControlerTraun.currendSpeed += Time.deltaTime / 10f;
+            }
+            else
+            {
+                leverControlerTraun.currendSpeed = 0.5f;
+            }
+            transform.Translate(Vector3.right * topka.fullEnergy * Time.deltaTime * leverControlerTraun.currendSpeed);
+            rememberSpeed = topka.fullEnergy;
+        }
+    }
+    private void GoLeft()
+    {
+        if (leverControlerTraun.goLeft && rememberSpeed == 0)
+        {
+            transform.Translate(-Vector3.right * topka.fullEnergy * Time.deltaTime / 2f);
         }
     }
     private void OnTriggerStay2D(Collider2D collision)

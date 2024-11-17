@@ -14,6 +14,10 @@ TagManager:
   - LS
   - Die
   - LeverControl
+  - LR05
+  - Battery
+  - SolarPanel
+  - GiveAway
   layers:
   - Default
   - TransparentFX
@@ -25,7 +29,7 @@ TagManager:
   - TCoal
   - Floor
   - Puff
-  - 
+  - Coal
   - 
   - 
   - 
