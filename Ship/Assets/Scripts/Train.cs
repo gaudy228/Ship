@@ -84,13 +84,16 @@ public class Train : MonoBehaviour
             transform.Translate(-Vector3.right * topka.fullEnergy * Time.deltaTime / 2f);
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         collision.gameObject.transform.parent = transform;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.gameObject.transform.parent = null;
+        if(transform.gameObject.active == true)
+        {
+            collision.gameObject.transform.SetParent(null, true);
+        }
     }
 
 }

@@ -27,7 +27,6 @@ public class TakeObjects : MonoBehaviour
         if(isObject != null)
         {
             TakeObject();
-
         }
       
         
